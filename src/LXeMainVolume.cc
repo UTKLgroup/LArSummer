@@ -45,7 +45,8 @@ LXeMainVolume::LXeMainVolume(G4RotationMatrix *pRot,
                              G4LogicalVolume *pMotherLogical,
                              G4bool pMany,
                              G4int pCopyNo,
-                             LXeDetectorConstruction* c)
+                             LXeDetectorConstruction* c,
+                             G4UserLimits* userLimits)
   //Pass info to the G4PVPlacement constructor
   :G4PVPlacement(pRot,tlate,
                  //Temp logical volume must be created here
@@ -71,8 +72,10 @@ LXeMainVolume::LXeMainVolume(G4RotationMatrix *pRot,
                                      G4Material::GetMaterial("Al"),
                                      "housing_log",0,0,0);
 
+  fScint_log->SetUserLimits(userLimits);
+
   new G4PVPlacement(0,G4ThreeVector(),fScint_log,"scintillator",
-                                 fHousing_log,false,0);
+                    fHousing_log,false,0);
 
   //*************** Miscellaneous sphere to demonstrate skin surfaces
   /*

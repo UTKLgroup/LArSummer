@@ -291,7 +291,7 @@ G4VPhysicalVolume* LXeDetectorConstruction::ConstructDetector()
   //Place the main volume
   if(fMainVolumeOn){
     fMainVolume
-      = new LXeMainVolume(0,G4ThreeVector(),fExperimentalHall_log,false,0,this);
+      = new LXeMainVolume(0,G4ThreeVector(),fExperimentalHall_log,false,0,this, fUserLimits);
   }
 
 /*

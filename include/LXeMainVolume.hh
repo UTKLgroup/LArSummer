@@ -46,11 +46,12 @@ class LXeMainVolume : public G4PVPlacement
   public:
 
     LXeMainVolume(G4RotationMatrix *pRot,
-                 const G4ThreeVector &tlate,
-                 G4LogicalVolume *pMotherLogical,
-                 G4bool pMany,
-                 G4int pCopyNo,
-                 LXeDetectorConstruction* c);
+                  const G4ThreeVector &tlate,
+                  G4LogicalVolume *pMotherLogical,
+                  G4bool pMany,
+                  G4int pCopyNo,
+                  LXeDetectorConstruction* c,
+                  G4UserLimits* userLimits);
 
     G4LogicalVolume* GetLogPhotoCath() {return fPhotocath_log;}
     G4LogicalVolume* GetLogScint()     {return fScint_log;}
