@@ -33,7 +33,7 @@
 #define LXePhysicsList_h 1
 
 #include "G4VModularPhysicsList.hh"
-#include "PhysListEmStandard.hh"
+
 #include "globals.hh"
 
 class PhysListEmStandard;
@@ -49,7 +49,7 @@ class LXePhysicsList: public G4VModularPhysicsList
     // SetCuts()
     virtual void SetCuts();
   private:
-    PhysListEmStandard* BeaEMPhys;// = new PhysListEmStandard();
+    //PhysListEmStandard* BeaEMPhys;// = new PhysListEmStandard();
 };
 
 #endif

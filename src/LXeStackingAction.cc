@@ -50,37 +50,17 @@ LXeStackingAction::LXeStackingAction() {}
 LXeStackingAction::~LXeStackingAction() {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 G4ClassificationOfNewTrack
 LXeStackingAction::ClassifyNewTrack(const G4Track * aTrack){
+  G4ClassificationOfNewTrack     classification = fUrgent;
 
-  LXeUserEventInformation* eventInformation=
-    (LXeUserEventInformation*)G4EventManager::GetEventManager()
-    ->GetConstCurrentEvent()->GetUserInformation();
+  // kill all secondaries
+  if(aTrack->GetParentID() != 0) classification = fKill;
 
-/*  //Count what process generated the optical photons
-  if(aTrack->GetDefinition()==G4OpticalPhoton::OpticalPhotonDefinition()){
-    // particle is optical photon
-    if(aTrack->GetParentID()>0){
-      // particle is secondary
-      if(aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
-        eventInformation->IncPhotonCount_Scint();
-      else if(aTrack->GetCreatorProcess()->GetProcessName()=="Cerenkov")
-        eventInformation->IncPhotonCount_Ceren();
-    }
+  return classification;
   }
-  else{
-  }
-  */
 
-//Bea because we dont want to kill secondaries when we want to extract creator process
-//  if(aTrack->GetParentID()==0){
-    return fUrgent;
-//  }
-//  else{
-//    return fKill;
-//  }
-}
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

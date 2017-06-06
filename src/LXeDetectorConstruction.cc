@@ -29,7 +29,7 @@
 #include "G4UImanager.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
-
+#include "G4UserLimits.hh"
 //G4bool LXeDetectorConstruction::fSphereOn = true;
 
 LXeDetectorConstruction::LXeDetectorConstruction() : fLAr_mt(NULL), fMPTPStyrene(NULL) {
@@ -270,11 +270,13 @@ G4VPhysicalVolume* LXeDetectorConstruction::Construct(){
 G4VPhysicalVolume* LXeDetectorConstruction::ConstructDetector()
 {
   //The experimental hall walls are all 1m away from housing walls
+  //Bea changed to 10m
   G4double expHall_x = fScint_x+fD_mtl+1.*m;
   G4double expHall_y = fScint_y+fD_mtl+1.*m;
   G4double expHall_z = fScint_z+fD_mtl+1.*m;
 
   //Create experimental hall
+
   fExperimentalHall_box
     = new G4Box("expHall_box",expHall_x,expHall_y,expHall_z);
   fExperimentalHall_log = new G4LogicalVolume(fExperimentalHall_box,
@@ -283,7 +285,8 @@ G4VPhysicalVolume* LXeDetectorConstruction::ConstructDetector()
                               fExperimentalHall_log,"expHall",0,false,0);
 
   fExperimentalHall_log->SetVisAttributes(G4VisAttributes::Invisible);
-
+  fUserLimits->SetMaxAllowedStep(1*mm);
+  fExperimentalHall_log->SetUserLimits(fUserLimits);
   //Place the main volume
   if(fMainVolumeOn){
     fMainVolume

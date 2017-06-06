@@ -78,7 +78,7 @@ LXeSteppingAction::~LXeSteppingAction() {}
 void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
        G4AnalysisManager *AnalysisManE = G4AnalysisManager::Instance();
        G4Track* theTrack = theStep->GetTrack();
-       G4Track* theCurrentTrack = theStep->GetTrack();
+       //G4Track* theCurrentTrack = theStep->GetTrack();
 
   if (theStep->GetTrack()->GetParentID() == 0) {
 
@@ -95,7 +95,7 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
     if (totalEnergyDeposit > 0.)
       deDx = (totalEnergyDeposit / MeV) * (cm / stepLength);
 
-    G4int id = 0;
+    //G4int id = 0;
     //BEA if ((procName == "muIoni") || (procName == "muPairProd") || (procName == "muBrems") || (procName == "muonNuclear"))
     //BEA  id = 1;
   //  fHistoManager->FillHisto(id, deDx);
@@ -104,6 +104,28 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
       AnalysisManE->FillNtupleDColumn(0, (E0 + E2) / 2.0 / MeV);
       AnalysisManE->FillNtupleDColumn(1, deDx);
       AnalysisManE->AddNtupleRow();
+
+/*
+
+    if(theTrack->GetParentID()==0){
+       if(theStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "scintillator"){
+         if(procName == "muIoni"){
+            G4cout << "-----" << G4endl;
+            G4cout << "Particle's definition: " << theCurrentTrack->GetParticleDefinition()->GetParticleName() << G4endl;
+            //if(theCurrentTrack->GetCreatorProcess()->GetProcessName()=="Scintillation"){
+            //  G4cout << "Process: " << theCurrentTrack-> GetCreatorProcess()->GetProcessName() << G4endl;
+            //}
+            G4cout << "Muon Energy: "<< (E0 + E2) / 2.0 << G4endl;
+            G4cout << "E0-E2: " << E0 - E2<< G4endl;
+            G4cout << "Delta Energy: " << theStep->GetDeltaEnergy() << G4endl;
+            G4cout << "Step Length: " << stepLength << G4endl;
+            G4cout << "Step Length*: " << theCurrentTrack->GetStepLength() << G4endl;
+            G4cout << "Energy Deposited to Medium: " << theStep->GetTotalEnergyDeposit() << G4endl;
+            G4cout << "-----" << G4endl;
+          }
+}
+}*/
+
     }
   }
 
@@ -112,31 +134,31 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
 
 
 // -------------------- ADD MUON ENERGY TO OUTPUTDATA.ROOT --------------------
-    /*  KaylaTREE
+/*
    if(theTrack->GetParentID()==0){
 	  if(theStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "scintillator"){
          G4cout << "-----" << G4endl;
          G4cout << "Particle's definition: " << theCurrentTrack->GetParticleDefinition()->GetParticleName() << G4endl;
-         G4cout << "Muon Energy: "<< theCurrentTrack->GetKineticEnergy() << G4endl;
-         G4cout << "Muon Position: " << theCurrentTrack->GetPosition().getX()<<","<<theCurrentTrack->GetPosition().getY()<<","<<theCurrentTrack->GetPosition().getZ() << G4endl;
-         G4cout << "Step Length: " << theCurrentTrack->GetStepLength() << G4endl;
+         G4cout << "Muon Energy: "<< (E0 + E2) / 2.0 << G4endl;
+         G4cout << "E0-E2: " << E0 - E2<< G4endl;
          G4cout << "Delta Energy: " << theStep->GetDeltaEnergy() << G4endl;
+         G4cout << "Step Length: " << stepLength << G4endl;
+         G4cout << "Step Length*: " << theCurrentTrack->GetStepLength() << G4endl;
          G4cout << "Energy Deposited to Medium: " << theStep->GetTotalEnergyDeposit() << G4endl;
-         G4cout << "-dE/dX: " << theStep->GetDeltaEnergy()/theCurrentTrack->GetStepLength() << G4endl;
          G4cout << "-----" << G4endl;
          //AnalysisManE->FillH1(0,theStep->GetTotalEnergyDeposit()/theCurrentTrack->GetStepLength());
-         AnalysisManE->FillNtupleDColumn(0, theStep->GetPreStepPoint()->GetKineticEnergy()/MeV);
-         AnalysisManE->FillNtupleDColumn(1, theStep->GetDeltaEnergy()/MeV);
-         AnalysisManE->FillNtupleDColumn(2, theStep->GetStepLength()/cm);
-         AnalysisManE->AddNtupleRow();
-         if(theStep->GetDeltaEnergy()!=0){
-           if(theStep->GetPreStepPoint()->GetKineticEnergy()!=0){
-             G4cout << "E = " << theStep->GetPreStepPoint()->GetKineticEnergy() << G4endl;
-             G4cout << "EDep/stepLen = " << theStep->GetDeltaEnergy()/theStep->GetStepLength() << G4endl;
-	     G4cout << "stepLen = " << theStep->GetStepLength() << G4endl;
-             G4cout << "----------" << G4endl;
-           }
-         }
+        // AnalysisManE->FillNtupleDColumn(0, theStep->GetPreStepPoint()->GetKineticEnergy()/MeV);
+         //AnalysisManE->FillNtupleDColumn(1, theStep->GetDeltaEnergy()/MeV);
+         //AnalysisManE->FillNtupleDColumn(2, theStep->GetStepLength()/cm);
+         //AnalysisManE->AddNtupleRow();
+         //if(theStep->GetDeltaEnergy()!=0){
+           //if(theStep->GetPreStepPoint()->GetKineticEnergy()!=0){
+            // G4cout << "E = " << theStep->GetPreStepPoint()->GetKineticEnergy() << G4endl;
+             //G4cout << "EDep/stepLen = " << theStep->GetDeltaEnergy()/theStep->GetStepLength() << G4endl;
+	   //  G4cout << "stepLen = " << theStep->GetStepLength() << G4endl;
+      //       G4cout << "----------" << G4endl;
+           //}
+         //}
         }
       }*/
 

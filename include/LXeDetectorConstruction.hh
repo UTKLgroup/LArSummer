@@ -50,6 +50,8 @@ class G4Sphere;
 #include "G4VUserDetectorConstruction.hh"
 #include "G4Cache.hh"
 
+class G4UserLimits;
+
 class LXeDetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
@@ -104,7 +106,7 @@ class LXeDetectorConstruction : public G4VUserDetectorConstruction
     G4VPhysicalVolume* ConstructDetector();
 
     LXeDetectorMessenger* fDetectorMessenger;
-
+    G4UserLimits* fUserLimits;
     G4Box* fExperimentalHall_box;
     G4LogicalVolume* fExperimentalHall_log;
     G4VPhysicalVolume* fExperimentalHall_phys;

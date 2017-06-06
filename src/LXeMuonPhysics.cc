@@ -60,6 +60,7 @@ LXeMuonPhysics::~LXeMuonPhysics() {}
 #include "G4PionZero.hh"
 #include "G4PionPlus.hh"
 #include "G4PionMinus.hh"
+#include "G4StepLimiter.hh"
 
 void LXeMuonPhysics::ConstructParticle()
 {
@@ -121,6 +122,7 @@ void LXeMuonPhysics::ConstructProcess()
   pManager->AddProcess(fMuMinusBremsstrahlung,    -1,  3, 3);	// Radiative Proc.
   pManager->AddProcess(fMuMinusPairProduction,    -1,  4, 4);	// Radiative Proc.
 
-  pManager->AddRestProcess(fMuMinusCaptureAtRest);
+  //pManager->AddRestProcess(fMuMinusCaptureAtRest);
+  pManager->AddProcess(new G4StepLimiter, -1, 5, 5);
 
 }
