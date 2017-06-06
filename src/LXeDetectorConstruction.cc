@@ -45,6 +45,7 @@ LXeDetectorConstruction::LXeDetectorConstruction() : fLAr_mt(NULL), fMPTPStyrene
   SetDefaults();
 
   fDetectorMessenger = new LXeDetectorMessenger(this);
+  fUserLimits = new G4UserLimits();
 }
 
 LXeDetectorConstruction::~LXeDetectorConstruction() {}
@@ -285,7 +286,7 @@ G4VPhysicalVolume* LXeDetectorConstruction::ConstructDetector()
                               fExperimentalHall_log,"expHall",0,false,0);
 
   fExperimentalHall_log->SetVisAttributes(G4VisAttributes::Invisible);
-  fUserLimits->SetMaxAllowedStep(1*mm);
+  fUserLimits->SetMaxAllowedStep(1.0 * mm);
   fExperimentalHall_log->SetUserLimits(fUserLimits);
   //Place the main volume
   if(fMainVolumeOn){

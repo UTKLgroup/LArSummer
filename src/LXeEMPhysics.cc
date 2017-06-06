@@ -34,6 +34,7 @@
 #include "globals.hh"
 #include "G4ios.hh"
 #include <iomanip>
+#include <G4OpticalPhoton.hh>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -68,6 +69,7 @@ void LXeEMPhysics::ConstructParticle()
   G4Positron::PositronDefinition();
   G4NeutrinoE::NeutrinoEDefinition();
   G4AntiNeutrinoE::AntiNeutrinoEDefinition();
+  G4OpticalPhoton::OpticalPhotonDefinition();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

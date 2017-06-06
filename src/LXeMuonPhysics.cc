@@ -121,8 +121,6 @@ void LXeMuonPhysics::ConstructProcess()
   pManager->AddProcess(fMuMinusIonisation,        -1,  2, 2);
   pManager->AddProcess(fMuMinusBremsstrahlung,    -1,  3, 3);	// Radiative Proc.
   pManager->AddProcess(fMuMinusPairProduction,    -1,  4, 4);	// Radiative Proc.
-
-  //pManager->AddRestProcess(fMuMinusCaptureAtRest);
-  pManager->AddProcess(new G4StepLimiter, -1, 5, 5);
-
+  pManager->AddProcess(new G4StepLimiter(), -1, -1, 5);
+  pManager->AddRestProcess(fMuMinusCaptureAtRest);
 }
