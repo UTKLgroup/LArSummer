@@ -47,10 +47,10 @@ LXePrimaryGeneratorAction::LXePrimaryGeneratorAction(){
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 
   G4String particleName;
-  fParticleGun->SetParticleDefinition(particleTable->FindParticle(particleName="e-"));
+  fParticleGun->SetParticleDefinition(particleTable->FindParticle(particleName="mu-"));
   //Default energy,position,momentum
   fParticleGun->SetParticleEnergy(1000.*MeV);
-  fParticleGun->SetParticlePosition(G4ThreeVector(0.0 , 0.0, -120*cm));
+  fParticleGun->SetParticlePosition(G4ThreeVector(0.0 , 0.0, -50*cm));
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 }

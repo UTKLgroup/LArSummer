@@ -63,7 +63,7 @@ void LXeEMPhysics::ConstructParticle()
 {
   // gamma
   G4Gamma::GammaDefinition();
- 
+
   // electron
   G4Electron::ElectronDefinition();
   G4Positron::PositronDefinition();
@@ -84,7 +84,7 @@ void LXeEMPhysics::ConstructProcess()
     new G4ComptonScattering();
   G4GammaConversion* fPairProduction =
     new G4GammaConversion();
- 
+
     // Electron physics
   G4eMultipleScattering* fElectronMultipleScattering =
     new G4eMultipleScattering();
@@ -92,7 +92,7 @@ void LXeEMPhysics::ConstructProcess()
     new G4eIonisation();
   G4eBremsstrahlung* fElectronBremsStrahlung =
     new G4eBremsstrahlung();
- 
+
     //Positron physics
   G4eMultipleScattering* fPositronMultipleScattering =
     new G4eMultipleScattering();
@@ -116,14 +116,14 @@ void LXeEMPhysics::ConstructProcess()
 
   pManager->AddProcess(fElectronMultipleScattering, -1, 1, 1);
   pManager->AddProcess(fElectronIonisation,         -1, 2, 2);
-  pManager->AddProcess(fElectronBremsStrahlung,     -1, 3, 3);  
+  pManager->AddProcess(fElectronBremsStrahlung,     -1, 3, 3);
 
   //Positron Physics
   pManager = G4Positron::Positron()->GetProcessManager();
- 
+
   pManager->AddProcess(fPositronMultipleScattering, -1, 1, 1);
   pManager->AddProcess(fPositronIonisation,         -1, 2, 2);
-  pManager->AddProcess(fPositronBremsStrahlung,     -1, 3, 3);  
-  pManager->AddProcess(fAnnihilation,                0,-1, 4);  
+  pManager->AddProcess(fPositronBremsStrahlung,     -1, 3, 3);
+  pManager->AddProcess(fAnnihilation,                0,-1, 4);
 
 }

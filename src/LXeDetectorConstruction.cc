@@ -74,13 +74,16 @@ void LXeDetectorConstruction::DefineMaterials() {
   fLXe = new G4Material("LXe",z=54.,a=131.29*g/mole,density=3.020*g/cm3);
   // Liquid Argon
   fLAr = new G4Material("LAr",z=18.,a=39.948*g/mole,density=1.3954*g/cm3);
+  //Hydrogen
+  //fH = new G4Material("Hi",z=1.,a=1.01*g/mole,density=0.000083748*g/cm3);
+
   //Aluminum
-  fAl = new G4Material("Al",z=13.,a=26.98*g/mole,density=2.7*g/cm3);
+  fAl = new G4Material("Al",z=13.,a=26.98*g/mole,density=2.6989*g/cm3);
   //Vacuum
   fVacuum = new G4Material("Vacuum",z=1.,a=1.01*g/mole,
                           density=universe_mean_density,kStateGas,0.1*kelvin,
                           1.e-19*pascal);
-  //Air
+  //Air//changed to Hydrogen
   fAir = new G4Material("Air", density= 1.29*mg/cm3, 2);
   fAir->AddElement(fN, 70*perCent);
   fAir->AddElement(fO, 30*perCent);
@@ -286,7 +289,7 @@ G4VPhysicalVolume* LXeDetectorConstruction::ConstructDetector()
                               fExperimentalHall_log,"expHall",0,false,0);
 
   fExperimentalHall_log->SetVisAttributes(G4VisAttributes::Invisible);
-  fUserLimits->SetMaxAllowedStep(1.0 * mm);
+  fUserLimits->SetMaxAllowedStep(1.0*cm);
   fExperimentalHall_log->SetUserLimits(fUserLimits);
   //Place the main volume
   if(fMainVolumeOn){
@@ -409,10 +412,11 @@ void LXeDetectorConstruction::SetDefaults() {
   //Resets to default values
   fD_mtl=0.0635*cm;
 
-  fScint_x = 17.8*cm;
-  fScint_y = 17.8*cm;
+  fScint_x = 10.0*cm;
+  fScint_y = 10.0*cm;
+//BEA fScint_y = 17.8*cm;
 //KL  fScint_z = 22.6*cm;
-  fScint_z = 50.*cm;
+  fScint_z = 4.0*m;
 
   fNx = 2;
   fNy = 2;

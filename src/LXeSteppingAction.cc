@@ -55,9 +55,12 @@
 
 #include "LXeAnalysis.hh"
 
-//static int scintphoton = 0;
-//static int cerenphoton = 0;
-//static int createdphoton = 0;
+//static double RtotalStepLength = 0;
+static double totalStepLength = 0;
+static double TOTtotalEnergyDeposit = 0;
+static double energyparticle = 0;
+static int stepCounter = 1;
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -85,26 +88,75 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
     G4StepPoint *endPoint = theStep->GetPostStepPoint();
     G4String procName = endPoint->GetProcessDefinedStep()->GetProcessName();
 
-  //  fRunAction->CountProcesses(procName);
-    G4StepPoint *startPoint = theStep->GetPreStepPoint();
-    G4double E0 = startPoint->GetKineticEnergy();
-    G4double E2 = endPoint->GetKineticEnergy();
-    G4double totalEnergyDeposit = E0 - E2;
-    G4double stepLength = theStep->GetStepLength();
-    G4double deDx = 0.;
-    if (totalEnergyDeposit > 0.)
-      deDx = (totalEnergyDeposit / MeV) * (cm / stepLength);
+    if(theStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetName() == "scintillator"){
+    //if(procName == "muBrem" || procName == "muIoni" || procName == "muPairProd"){
 
+        //  fRunAction->CountProcesses(procName);
+      G4StepPoint *startPoint = theStep->GetPreStepPoint();
+      G4double E0 = startPoint->GetKineticEnergy();
+      G4double E2 = endPoint->GetKineticEnergy();
+      G4double totalEnergyDeposit = E0 - E2;
+      energyparticle = (E0 + energyparticle*(stepCounter-1))/stepCounter;
+      G4double stepLength = theStep->GetStepLength();
+      totalStepLength = stepLength + totalStepLength;
+      TOTtotalEnergyDeposit = totalEnergyDeposit + TOTtotalEnergyDeposit;
+      G4double deDx = 0.;
+      //deDx = (totalEnergyDeposit / MeV) * (cm / totalStepLength);
+      deDx = (TOTtotalEnergyDeposit / MeV) * (cm / totalStepLength);
+      //totalStepLength = stepLength + totalStepLength;
+      //TOTtotalEnergyDeposit = totalEnergyDeposit + TOTtotalEnergyDeposit;
+      stepCounter = stepCounter + 1;
+
+      //if (totalEnergyDeposit > 0.)
+      /*  deDx = (totalEnergyDeposit / MeV) * (cm / ItotalStepLength);
+        meandeDx = (deDx + meandeDx*(stepCounter-1)) / stepCounter;
+        stepCounter +=1 ;
+
+             G4cout << " Radiative processes StepLength " << RtotalStepLength/cm <<G4endl;
+             G4cout << " Ionisation StepLength " << ItotalStepLength/cm <<G4endl;
+             G4cout << " stepLength " << stepLength/cm <<G4endl;
+             G4cout << " deDx " << G4endl;
+             G4cout << "    " << deDx << G4endl;
+             G4cout << "    " << meandeDx  << G4endl;
+             G4cout << "    " << meandeDx / 1.3954 << G4endl;
+             G4cout << " meandeDx  " <<  G4endl;
+             G4cout << " stepCounter  " << stepCounter << G4endl;
+             G4cout << " **************" << G4endl; */
     //G4int id = 0;
-    //BEA if ((procName == "muIoni") || (procName == "muPairProd") || (procName == "muBrems") || (procName == "muonNuclear"))
+    //BEA if ((procName == "muIoni") || (procName == "muPairProd") || (procName == "muBrem") || (procName == "muonNuclear"))
     //BEA  id = 1;
   //  fHistoManager->FillHisto(id, deDx);
+      //if(totalStepLength > 8*cm){
 
-    if (totalEnergyDeposit > 0.0 && stepLength > 0.0) {
-      AnalysisManE->FillNtupleDColumn(0, (E0 + E2) / 2.0 / MeV);
-      AnalysisManE->FillNtupleDColumn(1, deDx);
-      AnalysisManE->AddNtupleRow();
+    /*  G4cout << "Muon Energy: "<< energyparticle / MeV << G4endl;
+      G4cout << "process name: "<< procName << G4endl;
+      G4cout << "Current step length " << stepLength / cm << G4endl;
+      G4cout << "Total step length " << totalStepLength / cm << G4endl;
+      G4cout << "Current energy deposit " << totalEnergyDeposit / MeV << G4endl;
+      G4cout << "Total energy deposit " << TOTtotalEnergyDeposit / MeV << G4endl;
+      G4cout << "deDx " << deDx << G4endl;
+      G4cout << "step count " << stepCounter << G4endl;
+      G4cout << "-----" << G4endl;*/
 
+      if(totalStepLength > 1*m){
+      if(TOTtotalEnergyDeposit > 0.0 && totalStepLength > 0.0) {
+
+        AnalysisManE->FillNtupleDColumn(0, energyparticle / MeV);
+        AnalysisManE->FillNtupleDColumn(1, deDx);
+        AnalysisManE->AddNtupleRow();
+
+        totalStepLength = 0;
+        TOTtotalEnergyDeposit = 0;
+        energyparticle = 0;
+        stepCounter = 1;
+        theTrack->SetTrackStatus(fStopAndKill);
+        G4cout << "Muon dead" << G4endl;
+        G4cout << "-----" << G4endl;
+
+
+      }}
+        //  RtotalStepLength = 0;
+}}
 /*
 
     if(theTrack->GetParentID()==0){
@@ -126,8 +178,7 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
 }
 }*/
 
-    }
-  }
+
 
 
 //////////////////////////////////////////////////////////////////////////////
