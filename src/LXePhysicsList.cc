@@ -35,8 +35,7 @@
 #include "LXeEMPhysics.hh"
 #include "LXeMuonPhysics.hh"
 #include "G4HadronPhysicsQGSP_BERT_HP.hh"
-//BEA
-//#include "PhysListEmStandard.hh"
+
 
 #include "G4OpticalPhysics.hh"
 #include "G4OpticalProcessIndex.hh"
@@ -69,7 +68,7 @@ LXePhysicsList::LXePhysicsList() : G4VModularPhysicsList()
 
   // Optical Physics
   G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
-  //RegisterPhysics( opticalPhysics );
+  RegisterPhysics( opticalPhysics );
 
   //opticalPhysics->SetWLSTimeProfile("delta");
 
@@ -79,8 +78,8 @@ LXePhysicsList::LXePhysicsList() : G4VModularPhysicsList()
   opticalPhysics->SetMaxNumPhotonsPerStep(100);
   opticalPhysics->SetMaxBetaChangePerStep(10.0);
 
-  opticalPhysics->Configure(kCerenkov,false);
-  opticalPhysics->Configure(kScintillation,false);
+  opticalPhysics->Configure(kCerenkov,true);
+  opticalPhysics->Configure(kScintillation,true);
 
   opticalPhysics->SetTrackSecondariesFirst(kCerenkov, false);
   opticalPhysics->SetTrackSecondariesFirst(kScintillation, false);

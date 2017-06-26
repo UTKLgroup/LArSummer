@@ -70,7 +70,7 @@ void LXeScintSD::Initialize(G4HCofThisEvent* hitsCE){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4bool LXeScintSD::ProcessHits(G4Step* aStep,G4TouchableHistory* ){
-  /*
+/*
   G4double edep = aStep->GetTotalEnergyDeposit();
   if(edep==0.) return false; //No edep so dont count as hit
 
@@ -90,8 +90,8 @@ G4bool LXeScintSD::ProcessHits(G4Step* aStep,G4TouchableHistory* ){
   scintHit->SetEdep(edep);
   scintHit->SetPos(pos);
 
-  fScintCollection->insert(scintHit);
-  */
+  fScintCollection->insert(scintHit);*/
+
   return true;
 }
 

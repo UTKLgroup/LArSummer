@@ -47,7 +47,7 @@ LXeSteppingVerbose::~LXeSteppingVerbose() {}
 void LXeSteppingVerbose::StepInfo()
 {
 CopyState();
- 
+
   G4int prec = G4cout.precision(3);
 
   if( verboseLevel >= 1 ){
@@ -56,7 +56,7 @@ CopyState();
       G4cout << G4endl;
       G4cout << std::setw( 5) << "#Step#"     << " "
              << std::setw( 6) << "X"          << "    "
-             << std::setw( 6) << "Y"          << "    "  
+             << std::setw( 6) << "Y"          << "    "
              << std::setw( 6) << "Z"          << "    "
              << std::setw( 9) << "KineE"      << " "
              << std::setw( 9) << "dEStep"     << " "
@@ -118,6 +118,7 @@ CopyState();
                  << std::setw(6)
                  << G4BestUnit((*fSecondary)[lp1]->GetPosition().z(),"Length")
                  << std::setw(6)
+                 //<< (*fSecondary)[lp1]->GetCreatorProcess(),"creator";
                  << G4BestUnit((*fSecondary)[lp1]->GetKineticEnergy(),"Energy")
                  << std::setw(10)
                  << (*fSecondary)[lp1]->GetDefinition()->GetParticleName();

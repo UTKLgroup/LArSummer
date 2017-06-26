@@ -179,7 +179,8 @@ void LXeDetectorConstruction::DefineMaterials() {
   fLAr_mt->AddProperty("SLOWCOMPONENT", LAr_ScintEnergy_fast, LAr_Scint_fast, LArScintNum);
   fLAr_mt->AddProperty("RINDEX",        LAr_RIndEnergy, LAr_RIND,  LArRIndNum);
   fLAr_mt->AddProperty("ABSLENGTH",     LAr_AbsLEnergy, LAr_ABSL,  LArAbsLNum);
-  fLAr_mt->AddConstProperty("SCINTILLATIONYIELD",24000./MeV);
+  //BEA fLAr_mt->AddConstProperty("SCINTILLATIONYIELD",24000./MeV);
+  fLAr_mt->AddConstProperty("SCINTILLATIONYIELD",2./MeV);
   fLAr_mt->AddConstProperty("RESOLUTIONSCALE",1.0);
   fLAr_mt->AddConstProperty("FASTTIMECONSTANT",6.*ns);
   fLAr_mt->AddConstProperty("SLOWTIMECONSTANT",1590.*ns);
@@ -289,7 +290,7 @@ G4VPhysicalVolume* LXeDetectorConstruction::ConstructDetector()
                               fExperimentalHall_log,"expHall",0,false,0);
 
   fExperimentalHall_log->SetVisAttributes(G4VisAttributes::Invisible);
-  fUserLimits->SetMaxAllowedStep(1.0*cm);
+  //BEA fUserLimits->SetMaxAllowedStep(1.0*cm);
   fExperimentalHall_log->SetUserLimits(fUserLimits);
   //Place the main volume
   if(fMainVolumeOn){
@@ -416,7 +417,7 @@ void LXeDetectorConstruction::SetDefaults() {
   fScint_y = 10.0*cm;
 //BEA fScint_y = 17.8*cm;
 //KL  fScint_z = 22.6*cm;
-  fScint_z = 4.0*m;
+  fScint_z = 1.0*m;
 
   fNx = 2;
   fNy = 2;
