@@ -55,13 +55,13 @@
 
 #include "LXeAnalysis.hh"
 
-//static double RtotalStepLength = 0;
-//static double totalStepLength = 0;
-//static double TOTtotalEnergyDeposit = 0;
-//static double energyparticle = 0;
-//static int stepCounter = 1;
-static int scintphoton = 0;
-static int cerenphoton = 0;
+static double totalStepLength = 0;
+static double TOTtotalEnergyDeposit = 0;
+static double energyparticle = 0;
+static int stepCounter = 1;
+//static int scintphoton = 0;
+//static int cerenphoton = 0;
+//static int createdphoton = 0;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -80,11 +80,11 @@ LXeSteppingAction::~LXeSteppingAction() {}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
-       G4AnalysisManager *AnalysisManE = G4AnalysisManager::Instance();
-       G4Track* theTrack = theStep->GetTrack();
-       G4Track* theCurrentTrack = theStep->GetTrack();
+ G4AnalysisManager *AnalysisManE = G4AnalysisManager::Instance();
+ G4Track* theTrack = theStep->GetTrack();
+ G4Track* theCurrentTrack = theStep->GetTrack();
 
-/*BEA comment out 1
+//BEA comment out 1
   if (theStep->GetTrack()->GetParentID() == 0) {
 
     G4StepPoint *endPoint = theStep->GetPostStepPoint();
@@ -103,37 +103,35 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
       totalStepLength = stepLength + totalStepLength;
       TOTtotalEnergyDeposit = totalEnergyDeposit + TOTtotalEnergyDeposit;
       G4double deDx = 0.;
-      //deDx = (totalEnergyDeposit / MeV) * (cm / totalStepLength);
       deDx = (TOTtotalEnergyDeposit / MeV) * (cm / totalStepLength);
-      //totalStepLength = stepLength + totalStepLength;
-      //TOTtotalEnergyDeposit = totalEnergyDeposit + TOTtotalEnergyDeposit;
       stepCounter = stepCounter + 1;
-
-
+      //G4cout << "DumpInfo" <<theStep->GetPreStepPoint()->GetProcessDefinedStep()->DumpInfo()<< G4endl;
 
 
 //Bea: create two leaves of a tree with the average energy of the particle over the distance travelled and
 // the sum of the energy loss over the same distance
-     if(totalStepLength > 1*m){
+     if(totalStepLength > 10*cm){
       if(TOTtotalEnergyDeposit > 0.0 && totalStepLength > 0.0) {
 
         AnalysisManE->FillNtupleDColumn(0, energyparticle / MeV);
         AnalysisManE->FillNtupleDColumn(1, deDx);
         AnalysisManE->AddNtupleRow();
 
-        totalStepLength = 0;
-        TOTtotalEnergyDeposit = 0;
-        energyparticle = 0;
-        stepCounter = 1;
+
         theTrack->SetTrackStatus(fStopAndKill);
         G4cout << "Muon dead" << G4endl;
         G4cout << "-----" << G4endl;
 
+        totalStepLength = 0;
+        TOTtotalEnergyDeposit = 0;
+        energyparticle = 0;
+        stepCounter = 1;
+
 
       }
         }
-        //  RtotalStepLength = 0;
-//}}BEA comment out 1*/
+}}
+//BEA comment out
 
 
 
@@ -142,7 +140,7 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
 
 
 // -------------------- PRINT TO SCREEN  --------------------
-  /*    if (theTrack->GetCurrentStepNumber()==1){
+      /*//if (theTrack->GetCurrentStepNumber()==1){
          if(theTrack->GetParentID()==1){
           if(theTrack->GetCreatorProcess()->GetProcessName()=="muIoni"){
                  G4cout << "-----" << G4endl;
@@ -154,8 +152,8 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
                  G4cout << "-----" << G4endl;
 
              }
-            }
-      }*/
+           }*/
+    //  }
 
 // ----------------------- COUNT SCINT AND CEREN PHOTONS -----------------------
 
@@ -183,12 +181,13 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
 
 // ----------  WHEN SECONDARY IS CREATED NOT SCINT OR CEREN ----------
 
-
-
-/*       if (theTrack->GetCurrentStepNumber()==1){
+/*
+       if (theTrack->GetCurrentStepNumber()==1){
          if(theTrack->GetParentID()==1){
+
+           G4cout << "--------------------------" << G4endl;
            G4cout << "Process name: " <<  theCurrentTrack->GetCreatorProcess()->GetProcessName() << G4endl;
-           G4cout << "Particles definition: " <<  theCurrentTrack->GetParticleDefinition()->GetParticleName() << G4endl;
+           G4cout << "Particle's definition: " <<  theCurrentTrack->GetParticleDefinition()->GetParticleName() << G4endl;
 
            if (theCurrentTrack->GetParticleDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) {
              createdphoton += 1;
@@ -197,25 +196,28 @@ void LXeSteppingAction::UserSteppingAction(const G4Step *theStep){
                    scintphoton += 1;
                    //G4cout << "Process: " << theCurrentTrack-> GetCreatorProcess()->GetProcessName() << G4endl;
                    G4cout << "Number of scintillated photons: " <<  scintphoton << G4endl;
+
                }
              if(theCurrentTrack->GetCreatorProcess()->GetProcessName()=="Cerenkov"){
                 cerenphoton += 1;
                 G4cout << "Number of cerenkov photons: " <<  cerenphoton << G4endl;
               }
             }
+
           }
         }
-*/
+        theTrack->SetTrackStatus(fStopAndKill);*/
 
   if ( theTrack->GetCurrentStepNumber() == 1 ) fExpectedNextStatus = Undefined;
 
 //KL PRINT ENERGY TO SCREEN
-  if (theCurrentTrack->GetCurrentStepNumber() == 1){
+  /*if (theCurrentTrack->GetCurrentStepNumber() == 1){
     //if(theStep->GetTrack()->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()){
       if (theCurrentTrack->GetParticleDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) {
-       G4cout << "HIIIIIIIII"<< theStep->GetTrack()->GetKineticEnergy() << G4endl;
+       G4cout << "GetParentID"<< theTrack->GetParentID() << G4endl;
+       //theStep->GetTrack()->GetKineticEnergy() << G4endl;
     }
-  }
+  }*/
  //KL
 
  //KL SAVE WAVELENGTHS TO HISTORGRAM

@@ -57,8 +57,8 @@ void LXeTrackingAction::PreUserTrackingAction(const G4Track* aTrack)
   //This user track information is only relevant to the photons
   fpTrackingManager->SetUserTrackInformation(new LXeUserTrackInformation);
 
-  //KL const G4VProcess* creator = aTrack->GetCreatorProcess();
-  //KL if(creator) G4cout<<creator->GetProcessName()<<G4endl;
+  //const G4VProcess* creator = aTrack->GetCreatorProcess();
+  //if(creator) G4cout<<creator->GetProcessName()<<G4endl;
 
 }
 

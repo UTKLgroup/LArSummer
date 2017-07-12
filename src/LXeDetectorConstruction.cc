@@ -290,7 +290,7 @@ G4VPhysicalVolume* LXeDetectorConstruction::ConstructDetector()
                               fExperimentalHall_log,"expHall",0,false,0);
 
   fExperimentalHall_log->SetVisAttributes(G4VisAttributes::Invisible);
-  //BEA fUserLimits->SetMaxAllowedStep(1.0*cm);
+  fUserLimits->SetMaxAllowedStep(1.0*cm);
   fExperimentalHall_log->SetUserLimits(fUserLimits);
   //Place the main volume
   if(fMainVolumeOn){

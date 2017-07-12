@@ -78,8 +78,8 @@ LXePhysicsList::LXePhysicsList() : G4VModularPhysicsList()
   opticalPhysics->SetMaxNumPhotonsPerStep(100);
   opticalPhysics->SetMaxBetaChangePerStep(10.0);
 
-  opticalPhysics->Configure(kCerenkov,true);
-  opticalPhysics->Configure(kScintillation,true);
+  opticalPhysics->Configure(kCerenkov,false);
+  opticalPhysics->Configure(kScintillation,false);
 
   opticalPhysics->SetTrackSecondariesFirst(kCerenkov, false);
   opticalPhysics->SetTrackSecondariesFirst(kScintillation, false);

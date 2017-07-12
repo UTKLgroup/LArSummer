@@ -50,7 +50,7 @@ LXeStackingAction::LXeStackingAction() {}
 LXeStackingAction::~LXeStackingAction() {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-G4ClassificationOfNewTrack
+/*G4ClassificationOfNewTrack
 LXeStackingAction::ClassifyNewTrack(const G4Track * aTrack){
   G4ClassificationOfNewTrack     classification = fUrgent;
 
@@ -58,9 +58,30 @@ LXeStackingAction::ClassifyNewTrack(const G4Track * aTrack){
   if(aTrack->GetParentID() != 0) classification = fKill;
 
   return classification;
+}*/
+
+G4ClassificationOfNewTrack
+LXeStackingAction::ClassifyNewTrack(const G4Track * aTrack){
+
+  LXeUserEventInformation* eventInformation=
+    (LXeUserEventInformation*)G4EventManager::GetEventManager()
+    ->GetConstCurrentEvent()->GetUserInformation();
+
+  //Count what process generated the optical photons
+  if(aTrack->GetDefinition()==G4OpticalPhoton::OpticalPhotonDefinition()){
+    // particle is optical photon
+    if(aTrack->GetParentID()>0){
+      // particle is secondary
+      if(aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation")
+        eventInformation->IncPhotonCount_Scint();
+      else if(aTrack->GetCreatorProcess()->GetProcessName()=="Cerenkov")
+        eventInformation->IncPhotonCount_Ceren();
+    }
   }
-
-
+  else{
+  }
+  return fUrgent;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
